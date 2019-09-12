@@ -123,7 +123,7 @@ values:
         format: "<client> :This server was created <date>"
         comment: >
             Part of the post-registration greeting. Text varies widely and
-            &lt;date&gt; is returned in a human-readable format. Also known as
+            <date> is returned in a human-readable format. Also known as
             RPL_SERVERCREATED (InspIRCd)
 
     -
@@ -1766,9 +1766,17 @@ values:
     -
         name: RPL_WHOISCOUNTRY
         numeric: "344"
-        origin: InspIRCd 3.0
-        format: "<client> <country code> :is located in this country"
+        origin: InspIRCd 2.0
+        format: "<client> <nick> :is connected from <country> <country code>"
         comment: "Used by InspIRCd's m_geoip module."
+        conflict: true
+
+    -
+        name: RPL_WHOISCOUNTRY
+        numeric: "344"
+        origin: InspIRCd 3.0
+        format: "<client> <nick> <country code> :is connecting from <country>"
+        comment: "Used by InspIRCd's m_geoban module."
         conflict: true
 
     -
@@ -4007,9 +4015,15 @@ values:
         comment: >
             Used to display the user's TS6 UID in WHOIS.
 
-    -   name: RPL_LANGUAGES
+    -   
+        name: ERR_REDIRECT
         numeric: "690"
-        origin: Unreal?
+        origin: InspIRCd
+        format: "<client> :Target channel #chan must exist to be set as a redirect"
+        comment: >
+            Indicates an error when setting a channel redirect (MODE +L)
+            or using the banredirect module
+            
 
     -
         name: ERR_STARTTLS
@@ -4386,7 +4400,9 @@ values:
         name: ERR_MLOCKRESTRICTED
         numeric: "742"
         origin: Charybdis
-        format: "<channel> <modechar> <mlock> :MODE cannot be set due to channel having an active MLOCK restriction policy"
+        format: "<client> <channel> <modechar> <mlock> :MODE cannot be set due to channel having an active MLOCK restriction policy"
+        comment: >
+            InspIRCd 2.0 doesn't send the <client> parameter, while 3.0 does
 
     -
         name: ERR_INVALIDBAN
