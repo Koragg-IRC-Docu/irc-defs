@@ -22,6 +22,9 @@ page:
             Red denotes a conflicting extban definition, gray for deprecated
             (however quite possibly still in use), and blue for OK.
         </p>
+        <p>
+            NOTE: Charybdis supports the <code>~</code> (tilde) modifier which can appear before the extban char to negate the match.
+        </p>
 
 table:
     row-ids:
@@ -79,6 +82,19 @@ values:
             Matches all logged-in users, or if `<mask>` is given then only
             matches users who are logged in with the given account (`'?'` and
             `'*'` wildcards are parsed in `<mask>`).
+
+        conflict: true
+    -
+        char: a
+        name: user+realname
+        format: "a:<umask>+<realname>"
+        origin: InspIRCd 3.0
+        ban-type: Matching
+        desc: >
+            Matches users with the given usermask and realname (`'?'` and `'*'` wildcards
+            are parsed in `<umask>` and `<realname>`).
+
+        conflict: true
     -
         char: A
         name: allowinvite
@@ -143,6 +159,18 @@ values:
         desc: >
             Blocks messages from matching users (but does not block their
             messages if they have voice or higher).
+
+        conflict: true
+    -
+        char: m
+        name: match
+        format: "m:<umask>"
+        origin: Charybdis
+        ban-type: Matching
+        desc: >
+            Performs a normal mask match. Allows for stacking with [and](#and) and [or](#or) combination operators
+
+        conflict: true
     -
         char: N
         name: nicks
@@ -273,3 +301,25 @@ values:
         ban-type: Matching
         desc: >
             Matches users with the given certificate fingerprint.
+    -
+        char: "&"
+        name: and
+        format: "&:<components>"
+        origin: Charybdis
+        ban-type: Matching
+        desc: >
+            Combine component bans as ANDs.
+            Allows for stacking extbans. Optional pair of parens around data.
+            component bans are separated by commas, but commas between
+            matching pairs of parens are skipped.
+            Parens, commas and backslashes can be escaped by backslashes.
+            A backslash before any character other than a paren or backslash
+            is just a backslash (backslash and character are both used).
+    -
+        char: "|"
+        name: or
+        format: "|:<components>"
+        origin: Charybdis
+        ban-type: Matching
+        desc: >
+            Combine component bans as ORs. See [and](#and)

@@ -1,11 +1,13 @@
-name: IRC Definition Lists
-markdown: kramdown
-highlighter: rouge
-# baseurl: https://defs.ircdocs.horse/
+title: IRC Definition Lists
+
 exclude:
+  - Gemfile
+  - LICENSE
   - README.md
+  - discover_numeric
   - vendor
+
 plugins:
   - jekyll-sitemap
-sitemap:
-  file: "/sitemap.xml"
+
+incremental: true
